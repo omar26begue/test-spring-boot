@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Slf4j
 @Component
 @AllArgsConstructor
@@ -16,9 +18,9 @@ public class BookingPaginatedUseCase implements BookingPaginatedQuery {
     private final BookingRepository repository;
 
     @Override
-    public Page<BookingDomain> execute(Integer page, Integer size) {
+    public Page<BookingDomain> execute(Integer page, Integer size, UUID idBooking) {
         log.info("Ejecutando servicio de listado de reservas: page={}, size={}", page, size);
-        var response = repository.paginated(page, size);
+        var response = repository.paginated(page, size, idBooking);
         log.info("Cantidad de reservas: {}", response.getTotalElements());
         return response;
     }

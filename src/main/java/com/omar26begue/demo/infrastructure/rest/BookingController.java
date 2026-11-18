@@ -68,9 +68,12 @@ public class BookingController {
             @Parameter(description = "Número de página (base 0).", required = true, example = "1")
             @RequestParam Integer page,
             @Parameter(description = "Cantidad de elementos por página.", required = true, example = "25")
-            @RequestParam(defaultValue = "25") Integer size
+            @RequestParam(defaultValue = "25") Integer size,
+
+            @Parameter(description = "Identificador de la sala", example = "123e4567-e89b-12d3-a456-426614174000")
+            @RequestParam(required = false) UUID idBooking
     ) {
-        var response = bookingPaginatedQuery.execute(page, size);
+        var response = bookingPaginatedQuery.execute(page, size, idBooking);
         return new ResponseEntity<>(RestPaginatedResponse.<BookingResponse>builder()
                 .page(response.getNumber())
                 .size(response.getSize())

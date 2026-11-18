@@ -41,9 +41,9 @@ public class BookingRepositoryService implements BookingRepository {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<BookingDomain> paginated(Integer page, Integer size) {
+    public Page<BookingDomain> paginated(Integer page, Integer size, UUID idBooking) {
         var pageRequest = PageRequest.of(page - 1, size);
-        var spec = BookingSpecification.filter();
+        var spec = BookingSpecification.filter(idBooking);
         var response = repository.findAll(spec, pageRequest);
         return response.map(mapper::toDomain);
     }

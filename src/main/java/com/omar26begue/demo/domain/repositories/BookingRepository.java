@@ -13,7 +13,7 @@ public interface BookingRepository {
 
     List<BookingDomain> findConflictingBookings(UUID roomId, LocalDateTime dateStart, LocalDateTime dateEnd);
 
-    Page<BookingDomain> paginated(Integer page, Integer size);
+    Page<BookingDomain> paginated(Integer page, Integer size, UUID idBooking);
 
     BookingDomain save(BookingDomain payload);
 }
