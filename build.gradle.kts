@@ -17,25 +17,45 @@ repositories {
 	mavenCentral()
 }
 
-dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation("org.springframework.boot:spring-boot-starter-validation:4.1.2")
+val mapstructVersion = "1.6.3"
 
+dependencies {
+	// Spring Boot
+	implementation("org.springframework.boot:spring-boot-starter-webmvc")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.springframework.boot:spring-boot-starter-validation")
+
+	// OpenAPI / Swagger
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.2.0")
 
+	// PostgreSQL
+	runtimeOnly("org.postgresql:postgresql")
+
+	// MapStruct
+	implementation("org.mapstruct:mapstruct:$mapstructVersion")
+	annotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVersion")
+
+	// Lombok
+	compileOnly("org.projectlombok:lombok")
+	annotationProcessor("org.projectlombok:lombok")
+
+	// Integración Lombok + MapStruct
+	annotationProcessor(
+		"org.projectlombok:lombok-mapstruct-binding:0.2.0"
+	)
+
+	// Testing
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-validation-test")
 
-	implementation("org.postgresql:postgresql")
-	implementation("org.mapstruct:mapstruct:1.6.3")
-
-	compileOnly("org.projectlombok:lombok")
-	annotationProcessor("org.projectlombok:lombok")
 	testCompileOnly("org.projectlombok:lombok")
 	testAnnotationProcessor("org.projectlombok:lombok")
 
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+tasks.withType<JavaCompile> {
+	options.compilerArgs.add("-parameters")
 }
 
 tasks.withType<Test> {
