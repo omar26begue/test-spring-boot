@@ -1,4 +1,4 @@
-package com.omar26begue.demo.infrastructure.out.jpa.model;
+package com.omar26begue.demo.infrastructure.jpa.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
