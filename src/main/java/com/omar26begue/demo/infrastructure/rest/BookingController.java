@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Validated
@@ -71,9 +72,12 @@ public class BookingController {
             @RequestParam(defaultValue = "25") Integer size,
 
             @Parameter(description = "Identificador de la sala", example = "123e4567-e89b-12d3-a456-426614174000")
-            @RequestParam(required = false) UUID idBooking
+            @RequestParam(required = false) UUID idBooking,
+
+            @Parameter(description = "Fecha de la reserva", example = "2023-10-10")
+            @RequestParam(required = false) LocalDate date
     ) {
-        var response = bookingPaginatedQuery.execute(page, size, idBooking);
+        var response = bookingPaginatedQuery.execute(page, size, idBooking, date);
         return new ResponseEntity<>(RestPaginatedResponse.<BookingResponse>builder()
                 .page(response.getNumber())
                 .size(response.getSize())

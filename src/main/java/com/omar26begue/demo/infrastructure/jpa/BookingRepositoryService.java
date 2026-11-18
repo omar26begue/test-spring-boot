@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -41,9 +42,9 @@ public class BookingRepositoryService implements BookingRepository {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<BookingDomain> paginated(Integer page, Integer size, UUID idBooking) {
+    public Page<BookingDomain> paginated(Integer page, Integer size, UUID idBooking, LocalDate date) {
         var pageRequest = PageRequest.of(page - 1, size);
-        var spec = BookingSpecification.filter(idBooking);
+        var spec = BookingSpecification.filter(idBooking, date);
         var response = repository.findAll(spec, pageRequest);
         return response.map(mapper::toDomain);
     }
