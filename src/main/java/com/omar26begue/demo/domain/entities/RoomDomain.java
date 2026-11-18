@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Value
-@Builder
+@Builder(toBuilder = true)
 public class RoomDomain {
 
     UUID id;

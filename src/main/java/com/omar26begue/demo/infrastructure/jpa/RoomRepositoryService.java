@@ -18,8 +18,21 @@ public class RoomRepositoryService implements RoomRepository {
     private final RoomJPARepository repository;
 
     @Override
+    public RoomDomain findName(String name) {
+        var entity = repository.findByName(name);
+        return entity.map(mapper::toDomain).orElse(null);
+    }
+
+    @Override
     public List<RoomDomain> list() {
         var response = repository.findAll();
         return response.stream().map(mapper::toDomain).toList();
+    }
+
+    @Override
+    public RoomDomain save(RoomDomain payload) {
+        var entity = mapper.toEntity(payload);
+        var savedEntity = repository.save(entity);
+        return mapper.toDomain(savedEntity);
     }
 }

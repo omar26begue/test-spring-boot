@@ -3,6 +3,7 @@ package com.omar26begue.demo.infrastructure.rest.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,10 +20,11 @@ import lombok.SuperBuilder;
 public class RoomResquest {
 
     @JsonProperty("name")
+    @NotBlank(message = "El nombre de la sala no puede estar vacío")
     @Schema(name = "name", description = "Nombre de la sala", example = "Sala 1")
     String name;
 
     @JsonProperty("description")
-    @Schema(name = "description", description = "Descripción de la sala", example = "Sala de reuniones")
+    @Schema(name = "description", description = "Descripción de la sala", nullable = true, example = "Sala de reuniones")
     String description;
 }
