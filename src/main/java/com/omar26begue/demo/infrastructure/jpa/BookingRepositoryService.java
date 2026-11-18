@@ -3,6 +3,7 @@ package com.omar26begue.demo.infrastructure.jpa;
 import com.omar26begue.demo.domain.entities.BookingDomain;
 import com.omar26begue.demo.domain.mappers.BookingMapper;
 import com.omar26begue.demo.domain.repositories.BookingRepository;
+import com.omar26begue.demo.infrastructure.jpa.specifications.BookingSpecification;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -24,6 +25,13 @@ public class BookingRepositoryService implements BookingRepository {
 
     @Override
     @Transactional(readOnly = true)
+    public BookingDomain findById(UUID bookingId) {
+        var response = repository.findById(bookingId);
+        return response.map(mapper::toDomain).orElse(null);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<BookingDomain> findConflictingBookings(UUID roomId, LocalDateTime dateStart, LocalDateTime dateEnd) {
         var conflicts = repository.findConflictingBookings(roomId, dateStart, dateEnd);
         return conflicts.stream()
@@ -35,7 +43,8 @@ public class BookingRepositoryService implements BookingRepository {
     @Transactional(readOnly = true)
     public Page<BookingDomain> paginated(Integer page, Integer size) {
         var pageRequest = PageRequest.of(page - 1, size);
-        var response = repository.findAll(pageRequest);
+        var spec = BookingSpecification.filter();
+        var response = repository.findAll(spec, pageRequest);
         return response.map(mapper::toDomain);
     }
 

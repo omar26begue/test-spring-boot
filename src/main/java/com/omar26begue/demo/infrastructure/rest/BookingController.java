@@ -1,5 +1,6 @@
 package com.omar26begue.demo.infrastructure.rest;
 
+import com.omar26begue.demo.application.command.BookingCancelCommand;
 import com.omar26begue.demo.application.command.BookingCreatedCommand;
 import com.omar26begue.demo.application.query.BookingPaginatedQuery;
 import com.omar26begue.demo.domain.mappers.BookingMapper;
@@ -21,6 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,6 +41,7 @@ import java.util.UUID;
 public class BookingController {
 
     private final BookingMapper mapper;
+    private final BookingCancelCommand bookingCancelUseCase;
     private final BookingPaginatedQuery bookingPaginatedQuery;
     private final BookingCreatedCommand bookingCreatedCommand;
 
@@ -102,5 +105,29 @@ public class BookingController {
     ) {
         bookingCreatedCommand.execute(id, mapper.toDomain(payload));
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @Operation(
+            summary = "Cancelación de reservas",
+            description = "Cancela una reserva existente."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Reserva cancelada correctamente.", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Solicitud inválida.", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = RestResponse.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "Error inesperado.", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = RestResponse.class))
+            })
+    })
+    @PatchMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_PROBLEM_JSON_VALUE})
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<Void> cancel(@PathVariable UUID id) {
+        bookingCancelUseCase.execute(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

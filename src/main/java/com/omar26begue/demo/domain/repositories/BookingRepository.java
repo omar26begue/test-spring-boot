@@ -9,6 +9,8 @@ import java.util.UUID;
 
 public interface BookingRepository {
 
+    BookingDomain findById(UUID bookingId);
+
     List<BookingDomain> findConflictingBookings(UUID roomId, LocalDateTime dateStart, LocalDateTime dateEnd);
 
     Page<BookingDomain> paginated(Integer page, Integer size);
