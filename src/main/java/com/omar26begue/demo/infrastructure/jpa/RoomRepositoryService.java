@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Repository
@@ -16,6 +17,12 @@ public class RoomRepositoryService implements RoomRepository {
 
     private final RoomMapper mapper;
     private final RoomJPARepository repository;
+
+    @Override
+    public RoomDomain findId(UUID id) {
+        var entity = repository.findById(id);
+        return entity.map(mapper::toDomain).orElse(null);
+    }
 
     @Override
     public RoomDomain findName(String name) {

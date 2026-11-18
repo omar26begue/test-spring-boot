@@ -69,7 +69,7 @@ public class RoomController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Sala creada correctamente.", content = {
-                    @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = RoomResponse.class)))
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = RoomResponse.class))
             }),
             @ApiResponse(responseCode = "400", description = "Solicitud inválida.", content = {
                     @Content(mediaType = "application/json",

@@ -51,10 +51,10 @@ public class GlobalExceptionHandler {
         return buildResponseError(HttpStatus.BAD_REQUEST, e, e.getErrorCode(), e.getMessage());
     }
 
-    @ExceptionHandler(ExAccessException.class)
-    public ResponseEntity<RestResponse> handle(ExAccessException e) {
-        log.error(HttpStatus.UNAUTHORIZED.getReasonPhrase(), e);
-        return buildResponseError(HttpStatus.UNAUTHORIZED, e, e.getErrorCode(), e.getMessage());
+    @ExceptionHandler(ExTooManyException.class)
+    public ResponseEntity<RestResponse> handle(ExTooManyException e) {
+        log.error(HttpStatus.TOO_MANY_REQUESTS.getReasonPhrase(), e);
+        return buildResponseError(HttpStatus.TOO_MANY_REQUESTS, e, e.getErrorCode(), e.getMessage());
     }
 
     @ExceptionHandler(ExUnauthorizedException.class)
