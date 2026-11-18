@@ -6,6 +6,7 @@ import com.omar26begue.demo.domain.repositories.RoomRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,18 +20,21 @@ public class RoomRepositoryService implements RoomRepository {
     private final RoomJPARepository repository;
 
     @Override
+    @Transactional(readOnly = true)
     public RoomDomain findId(UUID id) {
         var entity = repository.findById(id);
         return entity.map(mapper::toDomain).orElse(null);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public RoomDomain findName(String name) {
         var entity = repository.findByName(name);
         return entity.map(mapper::toDomain).orElse(null);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<RoomDomain> list() {
         var response = repository.findAll();
         return response.stream().map(mapper::toDomain).toList();
