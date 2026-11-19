@@ -31,6 +31,10 @@ dependencies {
 	// PostgreSQL
 	runtimeOnly("org.postgresql:postgresql")
 
+	// Flyway
+	implementation("org.flywaydb:flyway-core")
+	implementation("org.flywaydb:flyway-database-postgresql")
+
 	// MapStruct
 	implementation("org.mapstruct:mapstruct:$mapstructVersion")
 	annotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVersion")

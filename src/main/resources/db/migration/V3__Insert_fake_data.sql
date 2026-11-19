@@ -1,0 +1,22 @@
+-- Insertar datos fake en la tabla rooms (20 salas)
+INSERT INTO public.rooms (name, description) VALUES
+('Sala de Conferencias A', 'Sala grande para reuniones corporativas con capacidad para 50 personas'),
+('Sala de Conferencias B', 'Sala mediana con proyector y pizarra interactiva'),
+('Sala de Conferencias C', 'Sala pequeña para reuniones de equipo'),
+('Sala de Juntas 1', 'Sala ejecutiva con mesa de roble y tecnología de punta'),
+('Sala de Juntas 2', 'Sala de juntas con videoconferencia HD'),
+('Sala de Capacitación', 'Aula para entrenamientos y seminarios'),
+('Auditorio Principal', 'Auditorio para eventos y presentaciones masivas'),
+('Auditorio Secundario', 'Auditorio de tamaño mediano'),
+('Oficina Privada 1', 'Despacho para directivos'),
+('Oficina Privada 2', 'Despacho para gerentes'),
+('Espacio Coworking A', 'Área abierta de trabajo colaborativo'),
+('Espacio Coworking B', 'Área de trabajo individual con cubículos'),
+('Sala de Descanso', 'Espacio para pausas y relajación del personal'),
+('Cafetería', 'Comedor y área de descanso para empleados'),
+('Área de Recepción', 'Zona de bienvenida a visitantes'),
+('Sala de Servidores', 'Centro de datos y servidores'),
+('Almacén General', 'Depósito de materiales y equipos'),
+('Sala de Archivo', 'Almacenamiento de documentos corporativos'),
+('Estudio de Fotografía', 'Espacio para sesiones fotográficas'),
+('Sala de Descanso VIP', 'Sala exclusiva para ejecutivos');
