@@ -21,7 +21,7 @@ val mapstructVersion = "1.6.3"
 
 dependencies {
 	// Spring Boot
-	implementation("org.springframework.boot:spring-boot-starter-webmvc")
+	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-security")
@@ -51,7 +51,7 @@ dependencies {
 
 	// Testing
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("org.springframework.boot:spring-boot-starter-validation-test")
+	testImplementation("org.springframework.security:spring-security-test")
 
 	testCompileOnly("org.projectlombok:lombok")
 	testAnnotationProcessor("org.projectlombok:lombok")
