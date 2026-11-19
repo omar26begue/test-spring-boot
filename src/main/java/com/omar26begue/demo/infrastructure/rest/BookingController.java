@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -21,8 +22,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -89,13 +90,18 @@ public class BookingController {
 
     @Operation(
             summary = "Creación de reservas",
-            description = "Crea una nueva reserva."
+            description = "Crea una nueva reserva. Requiere autenticación.",
+            security = @SecurityRequirement(name = "basicAuth")
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Reserva creada correctamente.", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class))
             }),
             @ApiResponse(responseCode = "400", description = "Solicitud inválida.", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = RestResponse.class))
+            }),
+            @ApiResponse(responseCode = "401", description = "No autorizado. Se requiere autenticación.", content = {
                     @Content(mediaType = "application/json",
                             schema = @Schema(implementation = RestResponse.class))
             }),
@@ -116,7 +122,8 @@ public class BookingController {
 
     @Operation(
             summary = "Cancelación de reservas",
-            description = "Cancela una reserva existente."
+            description = "Cancela una reserva existente. Requiere autenticación.",
+            security = @SecurityRequirement(name = "basicAuth")
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Reserva cancelada correctamente.", content = {
@@ -126,12 +133,16 @@ public class BookingController {
                     @Content(mediaType = "application/json",
                             schema = @Schema(implementation = RestResponse.class))
             }),
+            @ApiResponse(responseCode = "401", description = "No autorizado. Se requiere autenticación.", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = RestResponse.class))
+            }),
             @ApiResponse(responseCode = "default", description = "Error inesperado.", content = {
                     @Content(mediaType = "application/json",
                             schema = @Schema(implementation = RestResponse.class))
             })
     })
-    @PatchMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_PROBLEM_JSON_VALUE})
+    @DeleteMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_PROBLEM_JSON_VALUE})
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> cancel(@PathVariable UUID id) {
         bookingCancelUseCase.execute(id);

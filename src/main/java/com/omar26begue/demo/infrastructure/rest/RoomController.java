@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -65,13 +66,18 @@ public class RoomController {
 
     @Operation(
             summary = "Creación de salas",
-            description = "Crea una nueva sala."
+            description = "Crea una nueva sala. Requiere autenticación.",
+            security = @SecurityRequirement(name = "basicAuth")
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Sala creada correctamente.", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = RoomResponse.class))
             }),
             @ApiResponse(responseCode = "400", description = "Solicitud inválida.", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = RestResponse.class))
+            }),
+            @ApiResponse(responseCode = "401", description = "No autorizado. Se requiere autenticación.", content = {
                     @Content(mediaType = "application/json",
                             schema = @Schema(implementation = RestResponse.class))
             }),
